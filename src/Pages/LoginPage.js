@@ -15,26 +15,39 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            axios.post(`${API_URL}/auth/login`, {
-                email: email,
-                password: password
-            });
             if (!email || !password) {
                 Swal.fire({
                     icon: 'error',
                     title: 'ALERT',
-                    text: 'make sure to fill all the fields',
+                    text: 'Please make sure to fill email and password',
                     confirmButtonColor: '#dc3545',
                 })
-            } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'WELCOME',
-                    text: 'Login Success!',
-                    confirmButtonColor: '#dc3545',
-                })
-                navigate('/dashboard')
+                return
             }
+            axios.post(`${API_URL}/auth/login`, {
+                email: email,
+                password: password
+            }).then(response => {
+                console.log('ini adalah', response)
+                if (response.data.message === "ERROR") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ALERT',
+                        text: 'User not Registered',
+                        confirmButtonColor: '#dc3545',
+                    })
+                }
+                else {
+                    localStorage.setItem('token', JSON.stringify(response.data.result.access_token))
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'WELCOME',
+                        text: 'Login Success!',
+                        confirmButtonColor: '#dc3545',
+                    })
+                    navigate('/dashboard')
+                }
+            })
         }
         catch (err) {
             alert(err.toString())

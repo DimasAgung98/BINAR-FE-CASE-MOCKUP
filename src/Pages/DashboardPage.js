@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { Modal, Card } from 'react-bootstrap';
+import { API_URL } from '../config/baseurl';
 
 function DashboardPage() {
+    const [data, setData] = useState([]);
+
+    //GET PRODUCTS
+    const getProduts = () => {
+        axios.get(`${API_URL}/v1/products`)
+            .then(res => {
+                setData(res.data)
+                console.log(res)
+            }).catch(error => {
+                console.log(error)
+            })
+    }
     //HANDLE UPDATE
     const [showUpdate, setShowUpdate] = useState(false);
     const handleCloseUpdate = () => setShowUpdate(false);
@@ -16,57 +29,61 @@ function DashboardPage() {
     const handleCloseDelete = () => setShowDelete(false);
     const handleShowDelete = () => setShowDelete(true);
 
-    const PRODUCTS = [
-        {
-            "id": 1,
-            "name": "Giant Reign",
-            "price": 2560,
-            "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FE0/5552/B0CC/72B2/D939/0A0C/6D0E/EF35/MarinLarkspur2_web_m.jpg",
-            "created_at": "2018-01-10T12:41:55.284Z",
-            "updated_at": "2018-01-10T12:41:55.284Z"
-        },
-        {
-            "id": 2,
-            "name": "Santa Cruz Nomad",
-            "price": 7510,
-            "imageurl": "https://www.santacruzbicycles.com/files/frame-thumbs/my18_nomad_xx1_rsv30_tan.jpg",
-            "created_at": "2018-01-10T12:41:55.295Z",
-            "updated_at": "2018-01-10T12:41:55.295Z"
-        },
-        {
-            "id": 3,
-            "name": "Yeti SB5",
-            "price": 8715,
-            "imageurl": "https://ep1.pinkbike.org/p5pb11178439/p5pb11178439.jpg",
-            "created_at": "2018-01-10T12:41:55.298Z",
-            "updated_at": "2018-01-10T12:41:55.298Z"
-        },
-        {
-            "id": 4,
-            "name": "Gestalt Basic",
-            "price": 1520,
-            "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FBC/5CAE/DE80/10E8/D1E0/0A0C/6D0F/5842/FBGestaltBasic_web_m.jpg",
-            "created_at": "2018-01-10T12:41:55.284Z",
-            "updated_at": "2018-01-10T12:41:55.284Z"
-        },
-        {
-            "id": 5,
-            "name": "Nicasio 650",
-            "price": 9510,
-            "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FCA/EB26/AB07/F631/BB61/0A0C/6D0D/6796/Nicasio650Tan_web_m.jpg",
-            "created_at": "2018-01-10T12:41:55.295Z",
-            "updated_at": "2018-01-10T12:41:55.295Z"
-        },
-        {
-            "id": 6,
-            "name": "Fair fax 10",
-            "price": 10.125,
-            "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FE0/5592/E921/9192/7D30/0A0C/6D0C/0DFB/Fairfax1OrangeGrey_web_m.jpg",
-            "created_at": "2018-01-10T12:41:55.298Z",
-            "updated_at": "2018-01-10T12:41:55.298Z"
-        }
-    ]
-    console.log(PRODUCTS);
+    useEffect(() => {
+        getProduts()
+    }, []);
+
+    // const PRODUCTS = [
+    //     {
+    //         "id": 1,
+    //         "name": "Giant Reign",
+    //         "price": 2560,
+    //         "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FE0/5552/B0CC/72B2/D939/0A0C/6D0E/EF35/MarinLarkspur2_web_m.jpg",
+    //         "created_at": "2018-01-10T12:41:55.284Z",
+    //         "updated_at": "2018-01-10T12:41:55.284Z"
+    //     },
+    //     {
+    //         "id": 2,
+    //         "name": "Santa Cruz Nomad",
+    //         "price": 7510,
+    //         "imageurl": "https://www.santacruzbicycles.com/files/frame-thumbs/my18_nomad_xx1_rsv30_tan.jpg",
+    //         "created_at": "2018-01-10T12:41:55.295Z",
+    //         "updated_at": "2018-01-10T12:41:55.295Z"
+    //     },
+    //     {
+    //         "id": 3,
+    //         "name": "Yeti SB5",
+    //         "price": 8715,
+    //         "imageurl": "https://ep1.pinkbike.org/p5pb11178439/p5pb11178439.jpg",
+    //         "created_at": "2018-01-10T12:41:55.298Z",
+    //         "updated_at": "2018-01-10T12:41:55.298Z"
+    //     },
+    //     {
+    //         "id": 4,
+    //         "name": "Gestalt Basic",
+    //         "price": 1520,
+    //         "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FBC/5CAE/DE80/10E8/D1E0/0A0C/6D0F/5842/FBGestaltBasic_web_m.jpg",
+    //         "created_at": "2018-01-10T12:41:55.284Z",
+    //         "updated_at": "2018-01-10T12:41:55.284Z"
+    //     },
+    //     {
+    //         "id": 5,
+    //         "name": "Nicasio 650",
+    //         "price": 9510,
+    //         "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FCA/EB26/AB07/F631/BB61/0A0C/6D0D/6796/Nicasio650Tan_web_m.jpg",
+    //         "created_at": "2018-01-10T12:41:55.295Z",
+    //         "updated_at": "2018-01-10T12:41:55.295Z"
+    //     },
+    //     {
+    //         "id": 6,
+    //         "name": "Fair fax 10",
+    //         "price": 10.125,
+    //         "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/5FE0/5592/E921/9192/7D30/0A0C/6D0C/0DFB/Fairfax1OrangeGrey_web_m.jpg",
+    //         "created_at": "2018-01-10T12:41:55.298Z",
+    //         "updated_at": "2018-01-10T12:41:55.298Z"
+    //     }
+    // ]
+    // console.log(PRODUCTS);
     return (
         <>
             <Navbar />
@@ -74,8 +91,8 @@ function DashboardPage() {
                 <div className='container mt-5'>
                     <div className='row'>
                         {
-                            PRODUCTS.map(item => (
-                                <div className='col-4 mb-5 card-container'>
+                            data.map(item => (
+                                <div key={item} className='col-4 mb-5 card-container'>
                                     <Card className='text-center shadow h-100'>
                                         <div className='card-image-area'>
                                             <Card.Img variant='top' src={item.imageurl} className='card-image' />
@@ -147,4 +164,4 @@ function DashboardPage() {
     )
 }
 
-export default DashboardPage
+export default DashboardPage;
