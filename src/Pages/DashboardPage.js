@@ -113,7 +113,7 @@ function DashboardPage() {
                 <Modal.Footer>
                     <div className='row float-end'>
                         <div className='col-6'>
-                            <button className='btn btn-danger btn-modal' onClick={handleCloseUpdate}>Back</button>
+                            <button className='btn btn-dark btn-modal' onClick={handleCloseUpdate}>Back</button>
                         </div>
                         <div className='col-6'>
                             <button className='btn btn-success btn-modal'>Update</button>
@@ -134,10 +134,10 @@ function DashboardPage() {
                 <Modal.Footer className='footer-delete'>
                     <div className='row'>
                         <div className='col-6'>
-                            <button className='btn btn-danger btn-delete' onClick={handleCloseDelete}>No</button>
+                            <button className='btn btn-dark btn-delete' onClick={handleCloseDelete}>No</button>
                         </div>
                         <div className='col-6'>
-                            <button className='btn btn-success btn-delete'>Yes, delete it</button>
+                            <button className='btn btn-danger btn-delete'>Yes, delete it</button>
                         </div>
                     </div>
                 </Modal.Footer>

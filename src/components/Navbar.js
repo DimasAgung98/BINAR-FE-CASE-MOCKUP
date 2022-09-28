@@ -51,7 +51,7 @@ function Navbar() {
                 <Modal.Footer>
                     <div className='row float-end'>
                         <div className='col-6'>
-                            <button className='btn btn-danger btn-modal' onClick={handleCloseCreate}>Back</button>
+                            <button className='btn btn-dark btn-modal' onClick={handleCloseCreate}>Back</button>
                         </div>
                         <div className='col-6'>
                             <button className='btn btn-success btn-modal'>Create</button>
