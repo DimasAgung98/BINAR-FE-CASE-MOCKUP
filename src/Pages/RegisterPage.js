@@ -13,7 +13,7 @@ function RegsiterPage() {
                         <div className='row justify-content-center align-items-center'>
                             <div className='wrapper-register border border-dark'>
                                 <div className='row align-items-center justify-content-center'>
-                                    <input type="text" className="form-control" id="exampleInputText" aria-describedby="TextHelp" placeholder='Text' />
+                                    <input type="text" className="form-control" id="exampleInputText" aria-describedby="TextHelp" placeholder='Name' />
                                     <input type="email" className="form-control my-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder='Email' />
                                     <input type="password" className="form-control" id="exampleInputPassword" aria-describedby="PasswordHelp" placeholder='Password' />
                                     <div className='row align-items-center justify-content-center'>
