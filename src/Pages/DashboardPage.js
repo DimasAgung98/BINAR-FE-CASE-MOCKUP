@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { MdOutlineEditCalendar } from 'react-icons/md';
 import { RiDeleteBin5Line } from 'react-icons/ri';
-import { Modal } from 'react-bootstrap';
+import { Modal, Card } from 'react-bootstrap';
 
 function DashboardPage() {
     //HANDLE UPDATE
@@ -36,7 +37,7 @@ function DashboardPage() {
             "id": 3,
             "name": "Yeti SB5",
             "price": 8715,
-            "imageurl": "https://www.bmtbonline.com/WebRoot/Store10/Shops/61513316/6035/A790/5F5E/D815/0F5A/0A0C/6D12/000D/FBKrampusSilver_web_m.jpg",
+            "imageurl": "https://ep1.pinkbike.org/p5pb11178439/p5pb11178439.jpg",
             "created_at": "2018-01-10T12:41:55.298Z",
             "updated_at": "2018-01-10T12:41:55.298Z"
         },
@@ -74,17 +75,19 @@ function DashboardPage() {
                     <div className='row'>
                         {
                             PRODUCTS.map(item => (
-                                <div className='col-4 mb-5'>
-                                    <div class="card">
-                                        <div className='d-flex icon'>
-                                            <div className='me-3'><MdOutlineEditCalendar onClick={handleShowUpdate} /></div>
-                                            <div><RiDeleteBin5Line onClick={handleShowDelete} /></div>
+                                <div className='col-4 mb-5 card-container'>
+                                    <Card className='text-center shadow h-100'>
+                                        <div className='card-image-area'>
+                                            <Card.Img variant='top' src={item.imageurl} className='card-image' />
                                         </div>
-                                        <img src={item.imageurl} className="image-product" alt="produk" />
-                                        <div class="card-body">
-                                            <div class="card-text">{item.name}</div>
-                                            <div class="text-muted">$ {item.price}</div>
-                                        </div>
+                                        <Card.Body className='text-start'>
+                                            <Card.Title>{item.name}</Card.Title>
+                                            <Card.Text>$ {item.price}</Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                    <div className='action-card'>
+                                        <div><MdOutlineEditCalendar onClick={handleShowUpdate} /></div>
+                                        <div><RiDeleteBin5Line onClick={handleShowDelete} /></div>
                                     </div>
                                 </div>
                             ))
@@ -92,7 +95,6 @@ function DashboardPage() {
                     </div>
                 </div>
             </section>
-
 
             {/* MODAL EDIT */}
             <Modal show={showUpdate} onHide={handleCloseUpdate}>
@@ -140,6 +142,7 @@ function DashboardPage() {
                     </div>
                 </Modal.Footer>
             </Modal>
+            <Footer />
         </>
     )
 }
