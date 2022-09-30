@@ -13,6 +13,7 @@ import auth from '../utils/auth';
 function DashboardPage() {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
+
     useEffect(() => {
         const authData = localStorage.getItem('token');
         if (authData) {
@@ -29,7 +30,7 @@ function DashboardPage() {
     }, [navigate])
 
     //GET PRODUCTS
-    const getProduts = () => {
+    const getProducts = () => {
         axios.get(`${API_URL}/v1/products`, {
             headers: {
                 'Authorization': `token ${auth()}`
@@ -67,12 +68,12 @@ function DashboardPage() {
     const handleShowDelete = () => setShowDelete(true);
 
     useEffect(() => {
-        getProduts()
+        getProducts()
     }, []);
 
     return (
         <>
-            <Navbar />
+            <Navbar getProducts={getProducts} />
             <section id='card-product'>
                 <div className='container mt-5'>
                     <div className='row'>

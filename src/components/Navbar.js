@@ -6,7 +6,8 @@ import Swal from 'sweetalert2';
 import { API_URL } from '../config/baseurl';
 import auth from '../utils/auth';
 
-function Navbar() {
+function Navbar(props) {
+    const { getProducts } = props;
     const navigate = useNavigate();
 
     //HANDLE LOGOUT
@@ -31,19 +32,26 @@ function Navbar() {
     const handleSubmitCreate = async (e) => {
         e.preventDefault();
         try {
-            Swal.fire({
-                icon: 'success',
-                title: 'SUCCESS',
-                text: 'Create Product Success',
-                confirmButtonColor: '#dc3545',
-            })
             axios.post(`${API_URL}/v1/products/`, {
-                headers: {
-                    'Authorization': `token ${auth()}`
-                },
                 name: name,
                 price: price,
                 imageurl: imageurl,
+            }, {
+                headers: {
+                    'Authorization': `token ${auth()}`
+                }
+            }).then((response) => {
+                console.log(response);
+                if (response.data.status === 'OK') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'SUCCESS',
+                        text: 'Create Product Success',
+                        confirmButtonColor: '#dc3545',
+                    })
+                    handleCloseCreate();
+                    getProducts();
+                }
             })
         }
         catch (err) {
@@ -70,7 +78,7 @@ function Navbar() {
                     <Modal.Title>CREATE NEW</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
+                    <form method='post'>
                         <div className='row align-items-center justify-content-center'>
                             <input type="text" className="mb-2 form-control" id="productname" placeholder='Product Name' value={name} onChange={(e) => setName(e.target.value)} />
                             <input type="number" className="mb-2 form-control" id="Price" placeholder='Price (Dollar USD)' value={price} onChange={(e) => setPrice(e.target.value)} />
