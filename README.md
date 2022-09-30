@@ -14,7 +14,6 @@
     "react-router-dom"
     "react-scripts"
     "sweetalert2"
-    "web-vitals"
 ```
 
 - Lakukan clone repository menggunakan terminal pada directory yang diinginkan    dengan perintah berikut :
