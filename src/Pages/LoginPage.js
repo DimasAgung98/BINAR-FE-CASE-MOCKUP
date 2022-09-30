@@ -28,7 +28,6 @@ function LoginPage() {
                 email: email,
                 password: password
             }).then(response => {
-                console.log('ini adalah', response)
                 if (response.data.message === "ERROR") {
                     Swal.fire({
                         icon: 'error',

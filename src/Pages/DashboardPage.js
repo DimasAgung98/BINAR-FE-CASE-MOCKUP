@@ -12,6 +12,7 @@ import auth from '../utils/auth';
 
 function DashboardPage() {
     const navigate = useNavigate();
+    const [data, setData] = useState([]);
     useEffect(() => {
         const authData = localStorage.getItem('token');
         if (authData) {
@@ -27,8 +28,6 @@ function DashboardPage() {
         }
     }, [navigate])
 
-    const [data, setData] = useState([]);
-
     //GET PRODUCTS
     const getProduts = () => {
         axios.get(`${API_URL}/v1/products`, {
@@ -43,10 +42,25 @@ function DashboardPage() {
                 console.log(error)
             })
     }
+
     //HANDLE UPDATE
     const [showUpdate, setShowUpdate] = useState(false);
     const handleCloseUpdate = () => setShowUpdate(false);
-    const handleShowUpdate = () => setShowUpdate(true);
+    const handleShowUpdate = (id) => {
+        axios.get(`${API_URL}/v1/products/${id}`)
+            .then((res) => {
+                setName(res.data.result.name);
+                setPrice(res.data.result.price);
+                setImageUrl(res.data.result.imageurl);
+            }).catch(error => {
+                console.log(error)
+            })
+        setShowUpdate(true);
+    }
+    const [name, setName] = useState('')
+    const [price, setPrice] = useState('')
+    const [imageurl, setImageUrl] = useState('')
+
     //HANDLE DELETE
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
@@ -93,9 +107,9 @@ function DashboardPage() {
                 <Modal.Body>
                     <form>
                         <div className='row align-items-center justify-content-center'>
-                            <input type="text" className="mb-2 form-control" id="productname" placeholder='Product Name' />
-                            <input type="number" className="mb-2 form-control" id="Price" placeholder='Price (Dollar USD)' />
-                            <input type="text" className="mb-2 form-control" id="ImageURL" placeholder='Image URL' />
+                            <input type="text" className="mb-2 form-control" id="productname" placeholder='Product Name' value={name} onChange={(e) => setName(e.target.value)} />
+                            <input type="number" className="mb-2 form-control" id="Price" placeholder='Price (Dollar USD)' value={price} onChange={(e) => setPrice(e.target.value)} />
+                            <input type="text" className="mb-2 form-control" id="ImageURL" placeholder='Image URL' value={imageurl} onChange={(e) => setImageUrl(e.target.value)} />
                         </div>
                     </form>
                 </Modal.Body>

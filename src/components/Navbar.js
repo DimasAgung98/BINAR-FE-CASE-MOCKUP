@@ -1,7 +1,10 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { API_URL } from '../config/baseurl';
+import auth from '../utils/auth';
 
 function Navbar() {
     const navigate = useNavigate();
@@ -17,10 +20,37 @@ function Navbar() {
         navigate('/')
     }
 
-    //MODAL
+    //MODAL HANDLE CREATE
     const [showCreate, setShowCreate] = useState(false);
     const handleShowCreate = () => setShowCreate(true);
     const handleCloseCreate = () => setShowCreate(false);
+    const [name, setName] = useState('')
+    const [price, setPrice] = useState('')
+    const [imageurl, setImageUrl] = useState('')
+
+    const handleSubmitCreate = async (e) => {
+        e.preventDefault();
+        try {
+            Swal.fire({
+                icon: 'success',
+                title: 'SUCCESS',
+                text: 'Create Product Success',
+                confirmButtonColor: '#dc3545',
+            })
+            axios.post(`${API_URL}/v1/products/`, {
+                headers: {
+                    'Authorization': `token ${auth()}`
+                },
+                name: name,
+                price: price,
+                imageurl: imageurl,
+            })
+        }
+        catch (err) {
+            alert(err.toString())
+            console.log(err)
+        }
+    }
     return (
         <>
             <section id='Navbar'>
@@ -42,9 +72,9 @@ function Navbar() {
                 <Modal.Body>
                     <form>
                         <div className='row align-items-center justify-content-center'>
-                            <input type="text" className="mb-2 form-control" id="productname" placeholder='Product Name' />
-                            <input type="number" className="mb-2 form-control" id="Price" placeholder='Price (Dollar USD)' />
-                            <input type="text" className="mb-2 form-control" id="ImageURL" placeholder='Image URL' />
+                            <input type="text" className="mb-2 form-control" id="productname" placeholder='Product Name' value={name} onChange={(e) => setName(e.target.value)} />
+                            <input type="number" className="mb-2 form-control" id="Price" placeholder='Price (Dollar USD)' value={price} onChange={(e) => setPrice(e.target.value)} />
+                            <input type="text" className="mb-2 form-control" id="ImageURL" placeholder='Image URL' value={imageurl} onChange={(e) => setImageUrl(e.target.value)} />
                         </div>
                     </form>
                 </Modal.Body>
@@ -54,7 +84,7 @@ function Navbar() {
                             <button className='btn btn-dark btn-modal' onClick={handleCloseCreate}>Back</button>
                         </div>
                         <div className='col-6'>
-                            <button className='btn btn-primary btn-modal'>Create</button>
+                            <button className='btn btn-primary btn-modal' onClick={handleSubmitCreate}>Create</button>
                         </div>
                     </div>
                 </Modal.Footer>
