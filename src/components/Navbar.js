@@ -18,6 +18,7 @@ function Navbar(props) {
             text: 'LOG OUT SUCCESSFULLY',
             confirmButtonColor: '#dc3545',
         })
+        localStorage.clear('token')
         navigate('/')
     }
 

@@ -31,7 +31,7 @@ function DashboardPage() {
 
     //GET PRODUCTS
     const getProducts = () => {
-        axios.get(`${API_URL}/v1/products`, {
+        axios.get(`${API_URL}v1/products`, {
             headers: {
                 'Authorization': `token ${auth()}`
             }
@@ -44,28 +44,61 @@ function DashboardPage() {
             })
     }
 
+    const [selectedItem, setSelectedItem] = useState({});
     //HANDLE UPDATE
     const [showUpdate, setShowUpdate] = useState(false);
     const handleCloseUpdate = () => setShowUpdate(false);
-    const handleShowUpdate = (id) => {
-        axios.get(`${API_URL}/v1/products/${id}`)
-            .then((res) => {
-                setName(res.data.result.name);
-                setPrice(res.data.result.price);
-                setImageUrl(res.data.result.imageurl);
-            }).catch(error => {
-                console.log(error)
-            })
+    const handleShowUpdate = (item) => {
+        setSelectedItem(item);
         setShowUpdate(true);
     }
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
-    const [imageurl, setImageUrl] = useState('')
+
+    const updateProduct = (id) => {
+        axios.put(`${API_URL}v1/products/${id}`, {
+            name: selectedItem.name,
+            price: selectedItem.price,
+            imageurl: selectedItem.imageurl
+        }, {
+            headers: { 'Authorization': `token ${auth()}` }
+        }).then((response) => {
+            if (response.data.status === 'OK') {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Update Product Success',
+                    confirmButtonColor: '#dc3545',
+                })
+                handleCloseUpdate()
+                getProducts()
+            }
+        })
+    }
 
     //HANDLE DELETE
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
-    const handleShowDelete = () => setShowDelete(true);
+    const handleShowDelete = (item) => {
+        console.log(item);
+        setSelectedItem(item);
+        setShowDelete(true);
+    }
+
+    const deleteProduct = (id) => {
+        axios.delete(`${API_URL}v1/products/${id}`, {
+            headers: { 'Authorization': `token ${auth()}` }
+        }).then((response) => {
+            if (response.data.status === 'OK') {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Delete Success',
+                    confirmButtonColor: '#dc3545',
+                })
+                handleCloseDelete()
+                getProducts()
+            }
+        }).catch(error => {
+            console.log(error)
+        })
+    }
 
     useEffect(() => {
         getProducts()
@@ -90,8 +123,8 @@ function DashboardPage() {
                                         </Card.Body>
                                     </Card>
                                     <div className='action-card'>
-                                        <div><MdOutlineEditCalendar onClick={handleShowUpdate} /></div>
-                                        <div><RiDeleteBin5Line onClick={handleShowDelete} /></div>
+                                        <div><MdOutlineEditCalendar onClick={() => handleShowUpdate(item)} /></div>
+                                        <div><RiDeleteBin5Line onClick={() => handleShowDelete(item)} /></div>
                                     </div>
                                 </div>
                             ))
@@ -108,9 +141,29 @@ function DashboardPage() {
                 <Modal.Body>
                     <form>
                         <div className='row align-items-center justify-content-center'>
-                            <input type="text" className="mb-2 form-control" id="productname" placeholder='Product Name' value={name} onChange={(e) => setName(e.target.value)} />
-                            <input type="number" className="mb-2 form-control" id="Price" placeholder='Price (Dollar USD)' value={price} onChange={(e) => setPrice(e.target.value)} />
-                            <input type="text" className="mb-2 form-control" id="ImageURL" placeholder='Image URL' value={imageurl} onChange={(e) => setImageUrl(e.target.value)} />
+                            <input type="text" className="mb-2 form-control" id="productname" placeholder='Product Name' defaultValue={selectedItem.name}
+                                onChange={(e) => setSelectedItem((prevItem) => {
+                                    return {
+                                        ...prevItem,
+                                        name: e.target.value
+                                    }
+                                })}
+                            />
+                            <input type="number" className="mb-2 form-control" id="Price" placeholder='Price (Dollar USD)' defaultValue={selectedItem.price}
+                                onChange={(e) => setSelectedItem((prevItem) => {
+                                    return {
+                                        ...prevItem,
+                                        price: e.target.value
+                                    }
+                                })}
+                            />
+                            <input type="text" className="mb-2 form-control" id="ImageURL" placeholder='Image URL' defaultValue={selectedItem.imageurl}
+                                onChange={(e) => setSelectedItem((prevItem) => {
+                                    return {
+                                        ...prevItem,
+                                        imageurl: e.target.value
+                                    }
+                                })} />
                         </div>
                     </form>
                 </Modal.Body>
@@ -120,7 +173,7 @@ function DashboardPage() {
                             <button className='btn btn-dark btn-modal' onClick={handleCloseUpdate}>Back</button>
                         </div>
                         <div className='col-6'>
-                            <button className='btn btn-success btn-modal'>Update</button>
+                            <button className='btn btn-success btn-modal' onClick={() => updateProduct(selectedItem.id)}>Update</button>
                         </div>
                     </div>
                 </Modal.Footer>
@@ -133,7 +186,7 @@ function DashboardPage() {
                 </Modal.Header>
                 <Modal.Body className='text-center'>
                     Are you sure want to delete <br></br>
-                    Bycyle Giant Reign ?
+                    <div className='fw-bold'>"{selectedItem.name}"</div>
                 </Modal.Body>
                 <Modal.Footer className='footer-delete'>
                     <div className='row'>
@@ -141,7 +194,7 @@ function DashboardPage() {
                             <button className='btn btn-dark btn-delete' onClick={handleCloseDelete}>No</button>
                         </div>
                         <div className='col-6'>
-                            <button className='btn btn-danger btn-delete'>Yes, delete it</button>
+                            <button className='btn btn-danger btn-delete' onClick={() => deleteProduct(selectedItem.id)}>Yes, delete it</button>
                         </div>
                     </div>
                 </Modal.Footer>
