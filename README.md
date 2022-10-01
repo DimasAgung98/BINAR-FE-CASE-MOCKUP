@@ -36,7 +36,11 @@ npm install
 ```sh
 npm run start
 ```
-
+```
+NOTE:
+1. Halaman isi/data halaman dashboard hanya bisa diakses ketika sudah login
+2. Pastikan untuk register terlebih dahulu sebelum login
+```
 > FITURE
 1. REGISTER dengan melengkapi form dengan `nama`, `email`, dan `password`
 2. LOGIN dengan memasukan `email` dan `username`
