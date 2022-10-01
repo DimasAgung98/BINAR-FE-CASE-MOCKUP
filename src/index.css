@@ -107,6 +107,14 @@ header {
   margin: auto !important;
 }
 
+.icon-update {
+  color: rgb(41, 158, 255);
+}
+
+.icon-delete {
+  color: red !important;
+}
+
 .footer-delete {
   justify-content: center !important;
 }

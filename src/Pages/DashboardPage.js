@@ -123,8 +123,8 @@ function DashboardPage() {
                                         </Card.Body>
                                     </Card>
                                     <div className='action-card'>
-                                        <div><MdOutlineEditCalendar onClick={() => handleShowUpdate(item)} /></div>
-                                        <div><RiDeleteBin5Line onClick={() => handleShowDelete(item)} /></div>
+                                        <div><MdOutlineEditCalendar className='icon-update' onClick={() => handleShowUpdate(item)} /></div>
+                                        <div><RiDeleteBin5Line className='icon-delete' onClick={() => handleShowDelete(item)} /></div>
                                     </div>
                                 </div>
                             ))
