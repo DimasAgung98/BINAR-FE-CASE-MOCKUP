@@ -3,7 +3,7 @@
 
 - Front end test case mockup by Binar Academy
 
-> Module used
+> MODULE USED
 ```
     "axios"
     "bootstrap"
@@ -36,3 +36,10 @@ npm install
 ```sh
 npm run start
 ```
+
+> FITURE
+1. REGISTER dengan melengkapi form dengan `nama`, `email`, dan `password`
+2. LOGIN dengan memasukan `email` dan `username`
+3. CREATE DATA dengan `click` button `create new`
+4. EDIT DATA dengan `click` icon `edit` pada bagian kanan atas setiap product
+5. DELETE DATA dengan `click` icon `delete` pada bagian kanan atas setiap product
